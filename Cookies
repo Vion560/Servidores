@@ -1,0 +1,101 @@
+<?php
+//Primer paso guardar csv en variables de tipo array
+$myfile = fopen("ropa.csv", "r") or die("No se ha podido leer el fichero!");
+while ($frase = fgets($myfile)) 
+{
+    $tipo[] = explode(",", $frase)[0];
+    $long[] = explode(",", $frase)[1];
+    $talla[] = explode(",", $frase)[2];
+    $color[] = explode(",", $frase)[3];
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            border-collapse: collapse;
+        }
+        td{
+            border: solid 1px black;
+        }
+        .tr{
+            background-color: lightgreen;
+        }
+    </style>
+
+    <!--
+        *Errores:
+            1. Cambiar sentencia for por si me meten mas de 8 pantalones y los pantalones empiezan en el 5.
+
+    -->
+</head>
+<body>
+    <!--Segunso paso, hacer el form-->
+    <form action="index.php" method="POST">
+        <label for="prendas">Elige ropa:</label>
+        <select id="prendas" name="prendas">
+            <option value="pantalon">pantalon</option>
+            <option value="camiseta">camiseta</option>
+        </select>
+        <br>
+        <button type="submit">Enviar Datos</button>
+    </form>
+
+   <?php
+        if(isset($_POST['prendas']))
+        {
+            echo "<table>";
+            echo "<tr class='tr'>";
+            echo "<td>Tipo</td>";
+            echo "<td>Tamaño</td>";
+            echo "<td>Talla</td>";
+            echo "<td>Color</td>";
+            echo "</tr>";
+            for($i = 0; $i < count($tipo); $i++)
+            {
+                if($tipo[$i] == $_POST['prendas'])
+                {
+                    echo "<tr>";
+                    echo "<td>".$tipo[$i]."</td>";
+                    echo "<td>".$long[$i]."</td>";
+                    echo "<td>".$talla[$i]."</td>";
+                    echo "<td>".$color[$i]."</td>";
+                    echo "</tr>";
+                }
+            }
+            echo "</table>";
+            $cookie_name = "interes";
+            $cookie_value = $_POST['prendas'];
+            setcookie($cookie_name, $cookie_value, time() + (86400 * 300));
+        } 
+        if(!isset($_POST['prendas']))
+        {
+            echo "<table>";
+            echo "<tr class='tr'>";
+            echo "<td>Tipo</td>";
+            echo "<td>Tamaño</td>";
+            echo "<td>Talla</td>";
+            echo "<td>Color</td>";
+            echo "</tr>";
+            for($i = 0; $i < count($tipo); $i++)
+            {
+                if($tipo[$i] == $_COOKIE["interes"])
+                {
+                    echo "<tr>";
+                    echo "<td>".$tipo[$i]."</td>";
+                    echo "<td>".$long[$i]."</td>";
+                    echo "<td>".$talla[$i]."</td>";
+                    echo "<td>".$color[$i]."</td>";
+                    echo "</tr>";
+                }
+            }
+            echo "</table>";
+        }
+        
+   ?>
+</body>
+</html>
