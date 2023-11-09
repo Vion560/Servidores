@@ -74,26 +74,29 @@ while ($frase = fgets($myfile))
         } 
         if(!isset($_POST['prendas']))
         {
-            echo "<table>";
-            echo "<tr class='tr'>";
-            echo "<td>Tipo</td>";
-            echo "<td>Tamaño</td>";
-            echo "<td>Talla</td>";
-            echo "<td>Color</td>";
-            echo "</tr>";
-            for($i = 0; $i < count($tipo); $i++)
+            if(isset($_COOKIE['interes']))
             {
-                if($tipo[$i] == $_COOKIE["interes"])
+                echo "<table>";
+                echo "<tr class='tr'>";
+                echo "<td>Tipo</td>";
+                echo "<td>Tamaño</td>";
+                echo "<td>Talla</td>";
+                echo "<td>Color</td>";
+                echo "</tr>";
+                for($i = 0; $i < count($tipo); $i++)
                 {
-                    echo "<tr>";
-                    echo "<td>".$tipo[$i]."</td>";
-                    echo "<td>".$long[$i]."</td>";
-                    echo "<td>".$talla[$i]."</td>";
-                    echo "<td>".$color[$i]."</td>";
-                    echo "</tr>";
+                    if($_COOKIE['interes'] == $tipo[$i])
+                    {
+                        echo "<tr>";
+                        echo "<td>".$tipo[$i]."</td>";
+                        echo "<td>".$long[$i]."</td>";
+                        echo "<td>".$talla[$i]."</td>";
+                        echo "<td>".$color[$i]."</td>";
+                        echo "</tr>";
+                    }
                 }
+                echo "</table>";
             }
-            echo "</table>";
         }
         
    ?>
